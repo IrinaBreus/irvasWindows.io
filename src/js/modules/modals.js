@@ -45,11 +45,12 @@ const modals = (triggerSelector, modalSelector, closeSelector) => {
 
     
 };
+
 function showModalByTime(selector) {
     timerId = setTimeout(() => {
         document.querySelector(selector).style.display = 'block';
         document.body.style.overflow = 'hidden';
-    }, 6000);
+    }, 60000);
 };
 
 export {showModalByTime};
