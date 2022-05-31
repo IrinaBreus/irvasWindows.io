@@ -14024,7 +14024,8 @@ document.addEventListener('DOMContentLoaded', () => {
   "useStrict";
 
   Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])('.popup_engineer_btn', '.popup_engineer', '.popup_close');
-  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])('.phone_link', '.popup', '.popup_close'); // showModalByTime('.popup');
+  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])('.phone_link', '.popup', '.popup_close');
+  Object(_modules_modals__WEBPACK_IMPORTED_MODULE_1__["default"])('.popup_calc_btn', '.popup_calc', '.popup_calc_close'); // showModalByTime('.popup');
 
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.no_click', '.tab_content', 'after_click');
   Object(_modules_tabs__WEBPACK_IMPORTED_MODULE_2__["default"])('.glazing_block a', '.glazing_content', 'active');
@@ -14043,7 +14044,7 @@ document.addEventListener('DOMContentLoaded', () => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const forms = () => {
-  const form = document.querySelectorAll('.form'),
+  const allForms = document.querySelectorAll('form'),
         inputs = document.querySelectorAll('input'),
         inputsPhone = document.querySelectorAll('input[name="user_phone"]');
   inputsPhone.forEach(input => {
@@ -14052,34 +14053,32 @@ const forms = () => {
     });
   });
   const message = {
-    loading: 'Загрузка...',
+    loading: 'Загрузка....',
     succes: 'Спасибо! Мы скоро с Вами свяжемся',
     failure: 'Упс... Что-то пошло не так...'
   };
 
   const postData = async (url, data) => {
     document.querySelector('.status').textContent = message.loading;
-    let res = await fetch(url, {
-      method: "POST",
+    const response = await fetch(url, {
+      method: 'POST',
       body: data
     });
-    return await res.text();
+    return await response.text();
   };
 
-  form.forEach(item => {
-    item.addEventListener('submit', e => {
+  allForms.forEach(form => {
+    form.addEventListener('submit', e => {
       e.preventDefault();
       let statusMessage = document.createElement('div');
       statusMessage.classList.add('status');
-      item.append(statusMessage);
-      const formData = new FormData(item);
+      form.append(statusMessage);
+      const formData = new FormData(form);
       postData('assets/server.php', formData).then(res => {
         console.log(res);
         statusMessage.textContent = message.succes;
       }).catch(() => statusMessage.textContent = message.failure).finally(() => {
-        inputs.forEach(input => {
-          input.value = '';
-        });
+        inputs.forEach(input => input.value = '');
         setTimeout(() => {
           statusMessage.remove();
         }, 3000);

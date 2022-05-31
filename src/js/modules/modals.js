@@ -1,32 +1,39 @@
 let timerId;
-const modals = (triggerSelector, modalSelector, closeSelector) => {
+const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) => {
     const trigger = document.querySelectorAll(triggerSelector),
           modal = document.querySelector(modalSelector),
-          btnClose = modal.querySelector(closeSelector);
+          btnClose = modal.querySelector(closeSelector),
+          allModals = document.querySelectorAll('[data-modals]');
 
 
     trigger.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            if (e.target) {
+           closeAllModal();
+           if (e.target) {
                 e.preventDefault();
             };
+            
             openModal();
+            
         });
     });
 
     btnClose.addEventListener('click', () => {
         closeModal();
+        closeAllModal();
     });
 
     window.addEventListener('click', (e) => {
-        if (e.target === modal) {
+        if (e.target === modal && closeClickOverlay) {
             closeModal();
+            closeAllModal();
         }
     });
 
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Escape' && modal.style.display == 'block') {
             closeModal();
+            closeAllModal();
         }
     });
 
@@ -41,7 +48,9 @@ const modals = (triggerSelector, modalSelector, closeSelector) => {
         clearInterval(timerId);
     }
 
-    
+    function closeAllModal() {
+        allModals.forEach(modal => modal.style.display = 'none')
+    };
 
     
 };
