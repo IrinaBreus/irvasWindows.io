@@ -4,12 +4,17 @@ import modals from './modules/modals';
 // import {showModalByTime} from './modules/modals';
 import tabs from './modules/tabs';
 import forms from './modules/forms';
+import changeModalState from './modules/changeModalState';
 
 
 
 'use strict';
 document.addEventListener('DOMContentLoaded', () => {
     "useStrict";
+
+    let modalState = {};
+
+    changeModalState(modalState);
     modals('.popup_engineer_btn', '.popup_engineer', '.popup_close');
     modals('.phone_link', '.popup', '.popup_close');
     modals('.popup_calc_btn', '.popup_calc', '.popup_calc_close');
