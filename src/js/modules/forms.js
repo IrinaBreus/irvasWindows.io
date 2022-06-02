@@ -1,7 +1,6 @@
 import checkNumInputs from "./checkNumInputs";
 
-
-const forms = () => {
+const forms = (state) => {
     
     const allForms = document.querySelectorAll('form'),
           inputs = document.querySelectorAll('input');
@@ -28,6 +27,7 @@ const forms = () => {
     }
 
     allForms.forEach(form => {
+                
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
@@ -36,6 +36,19 @@ const forms = () => {
             form.append(statusMessage);
 
             const formData = new FormData(form);
+            if (form.getAttribute('data-calc') === 'end') {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
+            
+            function clearState() {
+                for (let key in state) {
+                    state[key] = '';
+                }
+                state.form = 1;
+                state.type = 'tree';
+            }
 
             postData('assets/server.php', formData)
                 .then(res => {
@@ -47,6 +60,9 @@ const forms = () => {
                     inputs.forEach(input => input.value = '');
                     setTimeout(() => {
                         statusMessage.remove();
+                        form.closest('[data-modals]').style.display = 'none';
+                        document.body.style.overflow = '';
+                        clearState();
                     }, 3000);
                 });
         });

@@ -1,5 +1,5 @@
 let timerId;
-const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay = true) => {
+const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay = true, state) => {
     const trigger = document.querySelectorAll(triggerSelector),
           modal = document.querySelector(modalSelector),
           btnClose = modal.querySelector(closeSelector),
@@ -7,14 +7,28 @@ const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay
 
 
     trigger.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+       
+        btn.addEventListener('click', function func(e) {
+            
+            if (modal.classList.contains('popup_calc_profile') ) {
+                if (!state.width || !state.height) {
+                    btn.removeAddEventListener('click', func);
+                };
+            };
+
+            if (modal.classList.contains('popup_calc_end') ) {
+                if (!state.profile) {
+                    btn.removeAddEventListener('click', func);
+                };
+            };
+
+
            closeAllModal();
            if (e.target) {
                 e.preventDefault();
             };
-            
             openModal();
-            
+            console.log(state);
         });
     });
 
