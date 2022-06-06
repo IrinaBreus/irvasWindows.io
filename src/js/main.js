@@ -5,13 +5,14 @@ import modals from './modules/modals';
 import tabs from './modules/tabs';
 import forms from './modules/forms';
 import changeModalState from './modules/changeModalState';
-
+import timer from './modules/timer';
 
 
 'use strict';
 document.addEventListener('DOMContentLoaded', () => {
     "useStrict";
 
+    const deadline = '2022-12-20T00:00';
     let modalState = {
         form: 1,
         type: 'tree'
@@ -27,5 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     tabs('.no_click', '.tab_content', 'after_click');
     tabs('.glazing_block a', '.glazing_content', 'active');
     tabs('.balcon_icons_img', '.big_img > img', 'do_image_more', 'inline-block');
+    
     forms(modalState);
+
+    timer('.container1', deadline);
 })
