@@ -14224,34 +14224,30 @@ const forms = state => {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const images = () => {
-  const imagePopup = document.createElement('div'),
-        worksSection = document.querySelector('.works'),
-        bigImage = document.createElement('img');
-  imagePopup.classList.add('popup');
-  worksSection.append(imagePopup);
-  imagePopup.style.cssText = `
-        justify-content: center;
-        align-items: center;
-        display: 'none'`;
-  bigImage.style.cssText = `
-        max-width: 85%;
-        max-height: 90%`;
-  imagePopup.append(bigImage);
-  worksSection.addEventListener('click', e => {
+  const sectionWorks = document.querySelector('.works'),
+        imgPopup = document.createElement('div'),
+        bigImg = document.createElement('img');
+  imgPopup.classList.add('popup');
+  imgPopup.style.justifyContent = 'center';
+  imgPopup.style.alignItems = 'center';
+  bigImg.style.cssText = `
+        max-width: 90%;
+        max-height: 90%;
+    `;
+  sectionWorks.append(imgPopup);
+  sectionWorks.addEventListener('click', e => {
     e.preventDefault();
 
     if (e.target && e.target.classList.contains('preview')) {
-      let path = e.target.parentNode.getAttribute('href');
-      bigImage.setAttribute('src', path);
-      imagePopup.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+      let props = e.target.parentNode.getAttribute('href');
+      bigImg.setAttribute('src', props);
+      imgPopup.append(bigImg);
+      imgPopup.style.display = 'flex';
+      imgPopup.classList.add('faded');
     }
 
-    ;
-
-    if (e.target && e.target.matches('div.popup')) {
-      imagePopup.style.display = 'none';
-      document.body.style.overflow = '';
+    if (e.target.matches('.popup')) {
+      imgPopup.style.display = 'none';
     }
   });
 };
@@ -14278,7 +14274,8 @@ const modals = function (triggerSelector, modalSelector, closeSelector) {
   const trigger = document.querySelectorAll(triggerSelector),
         modal = document.querySelector(modalSelector),
         btnClose = modal.querySelector(closeSelector),
-        allModals = document.querySelectorAll('[data-modals]');
+        allModals = document.querySelectorAll('[data-modals]'),
+        scroll = calcScrol();
   trigger.forEach(btn => {
     btn.addEventListener('click', function func(e) {
       if (modal.classList.contains('popup_calc_profile')) {
@@ -14331,20 +14328,37 @@ const modals = function (triggerSelector, modalSelector, closeSelector) {
   function closeModal() {
     modal.style.display = 'none';
     document.body.style.overflow = '';
+    document.body.style.marginRight = `0px`;
   }
 
   function openModal() {
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
+    document.body.style.marginRight = `${scroll}px`;
     clearInterval(timerId);
   }
 
   function closeAllModal() {
-    allModals.forEach(modal => modal.style.display = 'none');
+    allModals.forEach(modal => {
+      modal.style.display = 'none';
+      document.body.style.marginRight = `0px`;
+    });
   }
 
   ;
 };
+
+function calcScrol() {
+  const div = document.createElement('div');
+  div.style.width = '50px';
+  div.style.height = '50px';
+  div.style.overflowY = 'scroll';
+  div.style.visibility = 'hidden';
+  document.body.append(div);
+  let scrollWidth = div.offsetWidth - div.clientWidth;
+  div.remove();
+  return scrollWidth;
+}
 
 function showModalByTime(selector) {
   timerId = setTimeout(() => {
@@ -14374,6 +14388,7 @@ const tabs = function (tabsSelector, tabsContentSelector, activeClass) {
         tabContents = document.querySelectorAll(tabsContentSelector);
   hideTabs();
   showTabs();
+  tabContents.forEach(elem => elem.classList.add('faded'));
   tabs.forEach((item, i) => {
     item.addEventListener('click', () => {
       hideTabs();

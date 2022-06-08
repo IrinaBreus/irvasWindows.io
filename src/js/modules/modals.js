@@ -3,7 +3,8 @@ const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay
     const trigger = document.querySelectorAll(triggerSelector),
           modal = document.querySelector(modalSelector),
           btnClose = modal.querySelector(closeSelector),
-          allModals = document.querySelectorAll('[data-modals]');
+          allModals = document.querySelectorAll('[data-modals]'),
+          scroll = calcScrol();
 
 
     trigger.forEach(btn => {
@@ -54,21 +55,39 @@ const modals = (triggerSelector, modalSelector, closeSelector, closeClickOverlay
     function closeModal() {
         modal.style.display = 'none';
         document.body.style.overflow = '';
+        document.body.style.marginRight = `0px`;
     }
 
     function openModal() {
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
+        document.body.style.marginRight = `${scroll}px`;
         clearInterval(timerId);
     }
 
     function closeAllModal() {
-        allModals.forEach(modal => modal.style.display = 'none')
+        allModals.forEach(modal => {
+            modal.style.display = 'none';
+            document.body.style.marginRight = `0px`;
+        })
     };
 
     
 };
+function calcScrol() {
+    const div = document.createElement('div');
 
+    div.style.width = '50px';
+    div.style.height = '50px'
+    div.style.overflowY = 'scroll';
+    div.style.visibility = 'hidden';
+
+    document.body.append(div);
+    let scrollWidth = div.offsetWidth - div.clientWidth;
+    div.remove();
+
+    return scrollWidth;
+}
 function showModalByTime(selector) {
     timerId = setTimeout(() => {
         document.querySelector(selector).style.display = 'block';

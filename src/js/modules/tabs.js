@@ -6,6 +6,8 @@ const tabs = (tabsSelector, tabsContentSelector, activeClass, display = 'block')
     hideTabs();
     showTabs();
 
+    tabContents.forEach(elem => elem.classList.add('faded'));
+    
     tabs.forEach((item, i) => {
         item.addEventListener('click', () => {
             hideTabs();

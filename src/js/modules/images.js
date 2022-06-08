@@ -1,38 +1,33 @@
 const images = () => {
-    
-    const imagePopup = document.createElement('div'),
-          worksSection = document.querySelector('.works'),
-          bigImage = document.createElement('img');
+      const sectionWorks = document.querySelector('.works'),
+            imgPopup = document.createElement('div'),
+            bigImg = document.createElement('img');
 
-    imagePopup.classList.add('popup');
-    worksSection.append(imagePopup);
+    imgPopup.classList.add('popup');
     
-    imagePopup.style.cssText = `
-        justify-content: center;
-        align-items: center;
-        display: 'none'`;
-    bigImage.style.cssText = `
-        max-width: 85%;
-        max-height: 90%`;
+    imgPopup.style.justifyContent = 'center';
+    imgPopup.style.alignItems = 'center';
+    bigImg.style.cssText = `
+        max-width: 90%;
+        max-height: 90%;
+    `
+    sectionWorks.append(imgPopup);
     
-    imagePopup.append(bigImage);
-
-    worksSection.addEventListener('click', (e) => {
+    sectionWorks.addEventListener('click', (e) => {
         e.preventDefault();
 
         if (e.target && e.target.classList.contains('preview')) {
-            let path = e.target.parentNode.getAttribute('href');
-            bigImage.setAttribute('src', path);
-            
-            imagePopup.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        };
-        
-        if (e.target && e.target.matches('div.popup')) {
-            imagePopup.style.display = 'none';
-            document.body.style.overflow = '';
+            let props = e.target.parentNode.getAttribute('href');
+            bigImg.setAttribute('src', props);
+            imgPopup.append(bigImg);
+            imgPopup.style.display = 'flex';
+            imgPopup.classList.add('faded');
         }
-    });
+
+        if (e.target.matches('.popup')) {
+            imgPopup.style.display = 'none';
+        }
+    })
 }
 
 export default images;
