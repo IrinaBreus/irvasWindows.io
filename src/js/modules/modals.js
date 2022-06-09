@@ -88,6 +88,7 @@ function calcScrol() {
 
     return scrollWidth;
 }
+
 function showModalByTime(selector) {
     timerId = setTimeout(() => {
         document.querySelector(selector).style.display = 'block';
