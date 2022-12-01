@@ -40,6 +40,12 @@ const forms = (state) => {
 
             const formData = new FormData(form);
 
+            if (form.getAttribute('data-calc') == 'end') {
+                for (let key in state) {
+                    formData.append(key, state[key]);
+                }
+            }
+
             postData('assets/server.php', formData)
                 .then(res => {
                     console.log(res);
@@ -50,6 +56,11 @@ const forms = (state) => {
                     clearInputs();
                     setTimeout(() => {
                         statusMessage.remove();
+                        if (form.getAttribute('data-calc') == 'end') {
+                            document.querySelector('.popup_calc_end').style.display = 'none';
+                            document.body.style.overflow = '';
+                            document.body.style.marginRight = 0;
+                        }
                     }, 3000);
                 })
         })
